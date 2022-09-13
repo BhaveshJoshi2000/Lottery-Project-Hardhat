@@ -21,7 +21,7 @@ error Raffle_UpkeepNotNeeded(uint256 currentBalance, uint256 numPlayers, uint256
  * @dev This implements chainlink VRFV2  and Chainlink keepers
  */
 
-abstract contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
+contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
     enum RaffleState {
         OPEN,
         CALCULATING
