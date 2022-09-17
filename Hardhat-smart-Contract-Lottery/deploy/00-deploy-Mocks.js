@@ -21,5 +21,4 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
         log("_____________________________________________________________________")
     }
 }
-
 module.exports.tags = ["all", "mocks"]

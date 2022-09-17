@@ -41,6 +41,9 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
         log: true,
         waitConfirmations: network.config.blockConfirmations || 1,
     })
+    log("Raffle deployed...")
+    log("_____________________________________________________________________________")
+    log(subscriptionId.toString())
 }
 
 module.exports.tag = ["all", "raffle"]

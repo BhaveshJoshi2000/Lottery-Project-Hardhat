@@ -8,6 +8,7 @@ require("dotenv").config()
 /** @type import('hardhat/config').HardhatUserConfig */
 
 const RINKEBY_RPC_URL = process.env.RINKEBY_RPC_URL
+const Goerli_RPC_URL = process.env.Goerli_RPC_URL
 const PRIVATE_KEY = process.env.PRIVATE_KEY
 const COINMARKETCAP_API_KEY = process.env.COINMARKETCAP_API_KEY
 
@@ -32,6 +33,12 @@ module.exports = {
             chainId: 4,
             blockConfirmations: 6,
             url: RINKEBY_RPC_URL,
+            accounts: [PRIVATE_KEY],
+        },
+        goerli: {
+            chainId: 5,
+            blockConfirmations: 6,
+            url: Goerli_RPC_URL,
             accounts: [PRIVATE_KEY],
         },
     },
