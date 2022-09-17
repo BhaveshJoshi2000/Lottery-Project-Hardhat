@@ -4,25 +4,24 @@ const { networkConfig, developmentChains } = require("../../helper-hardhat-confi
 
 !developmentChains.includes(network.name)
     ? describe.skip
-    : describe("Raffle Unit Test", async function () {
-          let raffle, vrfCoordinatorV2Mock, depolyer
+    : describe("Raffle Unit Test", function () {
+          let raffle, vrfCoordinatorV2Mock, deployer, interval, raffleEntranceFee
           const chainId = network.config.chainId
 
           beforeEach(async function () {
               deployer = (await getNamedAccounts()).deployer
-              console.log(deployer)
               await deployments.fixture(["all"])
 
               raffle = await ethers.getContract("Raffle", deployer)
-              console.log(raffle)
               vrfCoordinatorV2Mock = await ethers.getContract("VRFCoordinatorV2Mock", deployer)
+              raffleEntranceFee = await raffle.getEnteranceFee() // you have a typo in your Raffle.sol -- I have decided to keep it the same here
+              interval = await raffle.getInterval()
           })
 
-          describe("constructor", async function () {
+          describe("constructor", function () {
               it("initializes the raffle correctly", async function () {
-                  const raffleState = raffle.getRaffleState()
-                  const interval = raffle.getInterval()
-                  assert.equal(raffleState.toString(), "0")
+                  const raffleState = (await raffle.getRaffleState()).toString()
+                  assert.equal(raffleState, "0")
                   assert.equal(interval.toString(), networkConfig[chainId]["keepersUpdateInterval"])
               })
           })
