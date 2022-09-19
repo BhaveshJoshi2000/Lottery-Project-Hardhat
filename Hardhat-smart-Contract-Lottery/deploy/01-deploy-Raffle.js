@@ -7,11 +7,11 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     const { deploy, log } = deployments
     const { deployer } = await getNamedAccounts()
     const chainId = network.config.chainId
-    let vrfCoordinatorV2address, subscriptionId
+    let vrfCoordinatorV2Address, subscriptionId
 
     if (developmentChains.includes(network.name)) {
         const vrfCoordinatorV2Mock = await ethers.getContract("VRFCoordinatorV2Mock")
-        vrfCoordinatorV2address = vrfCoordinatorV2Mock.address
+        vrfCoordinatorV2Address = vrfCoordinatorV2Mock.address
 
         const transactionResponse = await vrfCoordinatorV2Mock.createSubscription()
         const transactionReceipt = await transactionResponse.wait()
@@ -20,7 +20,7 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
 
         await vrfCoordinatorV2Mock.fundSubscription(subscriptionId, VRF_SUB_FUND_AMOUNT)
     } else {
-        vrfCoordinatorV2address = networkConfig.[chainId]["vrfCoordinatorV2"]
+        vrfCoordinatorV2Address = networkConfig[chainId]["vrfCoordinatorV2"]
         subscriptionId = networkConfig[chainId]["subscriptionId"]
     }
 
@@ -28,19 +28,19 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     const enteranceFee = networkConfig[chainId]["raffleEntranceFee"]
     const callbackGasLimit = networkConfig[chainId]["callbackGasLimit"]
     const interval = networkConfig[chainId]["keepersUpdateInterval"]
-    
+
     const arguments = [
         vrfCoordinatorV2Address,
         networkConfig[chainId]["raffleEntranceFee"],
         networkConfig[chainId]["gasLane"],
         subscriptionId,
         networkConfig[chainId]["callbackGasLimit"],
-        networkConfig[chainId]["keepersUpdateInterval"   
+        networkConfig[chainId]["keepersUpdateInterval"],
     ]
-          
+
     const raffle = await deploy("Raffle", {
         from: deployer,
-        args: arguments
+        args: arguments,
         log: true,
         waitConfirmations: network.config.blockConfirmations || 1,
     })
@@ -49,4 +49,4 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     log(subscriptionId.toString())
 }
 
-module.exports.tag = ["all", "raffle"]
+module.exports.tags = ["all", "raffle"]

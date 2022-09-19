@@ -14,7 +14,7 @@ const { networkConfig, developmentChains } = require("../../helper-hardhat-confi
 
               raffle = await ethers.getContract("Raffle", deployer)
               vrfCoordinatorV2Mock = await ethers.getContract("VRFCoordinatorV2Mock", deployer)
-              raffleEntranceFee = await raffle.getEnteranceFee() // you have a typo in your Raffle.sol -- I have decided to keep it the same here
+              raffleEntranceFee = await raffle.getEntranceFee() // you have a typo in your Raffle.sol -- I have decided to keep it the same here
               interval = await raffle.getInterval()
           })
 
