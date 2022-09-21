@@ -1,6 +1,6 @@
 const { network, ethers, run } = require("hardhat")
 const { networkConfig, developmentChains } = require("../helper-hardhat-config")
-
+const { verify } = require("../utils/verify")
 const VRF_SUB_FUND_AMOUNT = ethers.utils.parseEther("2")
 
 module.exports = async function ({ getNamedAccounts, deployments }) {
@@ -46,7 +46,16 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     })
     log("Raffle deployed...")
     log("_____________________________________________________________________________")
-    log(subscriptionId.toString())
+
+    if (!developmentChains.includes(network.name) && process.env.ETHERSCAN_API_KEY) {
+        log("Verifying...")
+        await verify(raffle.address, arguments)
+    }
+
+    log("Enter lottery with command:")
+    const networkName = network.name == "hardhat" ? "localhost" : network.name
+    log(`yarn hardhat run scripts/enterRaffle.js --network ${networkName}`)
+    log("----------------------------------------------------")
 }
 
 module.exports.tags = ["all", "raffle"]
