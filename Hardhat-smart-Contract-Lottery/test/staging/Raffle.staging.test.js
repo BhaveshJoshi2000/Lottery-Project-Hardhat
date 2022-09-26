@@ -1,6 +1,5 @@
 const { assert, expect } = require("chai")
 const { network, getNamedAccounts, deployments, ethers } = require("hardhat")
-const { isCallTrace } = require("hardhat/internal/hardhat-network/stack-traces/message-trace")
 const { networkConfig, developmentChains } = require("../../helper-hardhat-config")
 
 developmentChains.includes(network.name)
@@ -47,7 +46,7 @@ developmentChains.includes(network.name)
 
                       console.log("Entering Raffle...")
                       const tx = await raffle.enterRaffle({ value: raffleEntranceFee })
-                      //   await tx.wait(1)
+                      await tx.wait(1)
                       console.log("Ok, time to wait...")
                       const winnerStartingBalance = await accounts[0].getBalance()
                   })
